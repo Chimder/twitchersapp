@@ -2,32 +2,98 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 274 36% 61%;
+    --primary-foreground: 274 36% 61%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* --badge: 191 97% 77%; */
+    --badge: 19 100% 49%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 254 12% 6%;
+    --foreground: 0 0% 98%;
+
+    --bg-section: 240 10% 12%;
+
+    --card: 254 12% 12%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 274 36% 61%;
+    --primary-foreground: 274 27% 51%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 230 15% 24%;
+    --accent-foreground: 0 0% 98%;
+
+    --button-accent: 218 12% 25%;
+    --badge: 218 12% 25%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --text: 254 12% 36%;
+    --border: 254 12% 12%;
+    --input: 240 3.7% 15.9%;
+    --ring: 254 12% 12%;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer components {
+  .container {
+    @apply px-[8vw] lg:px-[1vw] xl:px-[4vw];
+  }
+  .gridCard {
+    @apply grid grid-cols-6 gap-4 sm:grid-cols-2 sm:gap-1 md:gap-2 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4 2xl:grid-cols-5;
+  }
+  .ImgCarusel {
+    @apply h-[280px] w-full rounded-2xl md:h-[160px] lg:h-[170px] xl:h-[210px] 2xl:h-[240px];
+  }
+  .iframeOC {
+    @apply mt-3 aspect-video h-[76vh] w-[78vw] sm:h-[36vh] sm:w-[94vw] md:h-[49vh] lg:mt-1 lg:h-[57vh] xl:h-[68vh] xl:w-[86vw];
   }
 }
