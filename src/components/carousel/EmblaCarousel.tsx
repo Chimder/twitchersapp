@@ -20,8 +20,7 @@ type Props = {
   search?: (idGame: string, type: string) => Promise<TwitchCurrent[]>
 }
 
-const EmblaCarousel = ({ game, slides, search }: Props) => {
-  // const [gameS, setGameS] = useState<TwitchCurrent[]>(game)
+const EmblaCarousel = ({ slides }: Props) => {
   const [isPending, startTransition] = useTransition()
   const [selectedIndex, setSelectedIndex] = useState<number>(Number(slides[0]?.id))
   const [type, setType] = useState<'offline' | 'stream' | 'clips'>('stream')
@@ -44,17 +43,6 @@ const EmblaCarousel = ({ game, slides, search }: Props) => {
     staleTime: 0,
   })
 
-  // const onThumbClick = (index: number, type: 'clips' | 'stream') => {
-  //   try {
-  //     setSelectedIndex(index)
-  //     setIdGame(index.toString())
-  //     setType(type)
-  //     refetch()
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  //   // if (!emblaMainApi || !emblaThumbsApi) return;
-  // }
   const onThumbClick = async (index: number, type: 'clips' | 'stream') => {
     startTransition(async () => {
       await setSelectedIndex(index)
@@ -62,10 +50,8 @@ const EmblaCarousel = ({ game, slides, search }: Props) => {
       await setType(type)
       await refetch()
     })
-
-    // setGameS(await search(index.toString(), type))
-    // revalidatePath('/')
   }
+
   console.log('GAMES', games)
 
   return (

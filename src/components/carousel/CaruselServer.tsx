@@ -1,7 +1,6 @@
 // 'use server'
 
 import React from 'react'
-import { revalidatePath } from 'next/cache'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 
 import EmblaCarousel from '@/components/carousel/EmblaCarousel'

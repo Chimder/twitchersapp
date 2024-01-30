@@ -28,11 +28,13 @@ export const StreamerVideos = () => {
 
   const { data, fetchNextPage, refetch, hasNextPage, isRefetching, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['getVideosByUserId', id],
+      queryKey: ['getVideosByUserId'],
       queryFn: fetchVideos,
       getNextPageParam: lastPage => lastPage?.nextCursor || null,
       initialPageParam: undefined,
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      staleTime: 0,
     })
   const ToggleType = async (type: 'offline' | 'stream' | 'clips') => {
     await setType(type)
