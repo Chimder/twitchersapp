@@ -153,11 +153,38 @@ export async function getCurrentStreamByUserId(
   }
 }
 
+export async function getVideosByUserIdAct(userId: string): Promise<{ videos: TwitchVideo[] }> {
+  const accessToken = await getAccessToken()
+
+  try {
+    const { data } = await axios.get<TwitchVideoResponse>(
+      `https://api.twitch.tv/helix/videos?user_id=${userId}`,
+      {
+        params: {
+          first: 40,
+        },
+        headers: {
+          'Client-ID': process.env.NEXT_PUBLIC_CLIENT_ID,
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      },
+    )
+
+    const videos = data.data
+
+    return { videos }
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
+}
+
 export async function getVideosByUserId(
   userId: string,
   cursor: string | null = null,
   type: 'offline' | 'stream' | 'clips',
 ): Promise<{ videos: TwitchVideo[]; nextCursor: string | null }> {
+  console.log("SECONDDDD")
   const accessToken = await getAccessToken()
 
   try {

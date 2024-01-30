@@ -1,4 +1,7 @@
+'use client'
+
 import React from 'react'
+import { getTopGames } from '@/shared/api/axios'
 import { motion } from 'framer-motion'
 
 import { Badge } from '../ui/badge'
@@ -14,9 +17,10 @@ type PropType = {
 }
 
 export const Thumb: React.FC<PropType> = ({ selected, imgSrc, index, number, onClick }) => {
+  // const slides = await getTopGames()
   return (
     <div
-      className={`group relative z-999 mr-4 flex-[0_0_12%] rounded-2xl  ${
+      className={`z-999 group relative mr-4 flex-[0_0_12%] rounded-2xl  ${
         selected
           ? 'border-[2px] border-card opacity-100 '
           : 'border-[2px] opacity-30 hover:opacity-60'

@@ -25,10 +25,8 @@ export async function getTopStreamsByGame(
       },
     })
 
-    console.log('NOGAMEID')
     return data.data
   }
-
   try {
     let url
     if (type === 'clips') {
@@ -47,7 +45,6 @@ export async function getTopStreamsByGame(
         'Authorization': `Bearer ${accessToken}`,
       },
     })
-
     return data.data
   } catch (error: any) {
     console.error(error.response?.data || error.message)

@@ -1,26 +1,18 @@
-import { Channel } from 'diagnostics_channel'
-import React from 'react'
-import { useRouter } from 'next/navigation'
-import { Emotes, TwitchStream, TwitchUser } from '@/shared/api/types'
+// 'use client'
 
-import DialogIframe from './dialog-iframe'
+import React from 'react'
+import { Emotes, TwitchUser } from '@/shared/api/types'
 
 interface Props {
   user?: TwitchUser
-  emotes?: Emotes[]
-  clips?: any
+  emotes: Emotes[]
 }
 
-export const StreamerInfo = ({ user, emotes, clips }: Props) => {
-  const router = useRouter()
-  // const id = router?.query?.id as string
-  // const navigate = useRouter()
+export const StreamerInfo = ({ user, emotes }: Props) => {
+  // const router = useRouter()
 
-  const [isModalOpen, setIsModalOpen] = React.useState(false)
-
-  // if (!user && !isFetchingUser && !isFetchingStream) {
-  //   sessionStorage.setItem("userNotFound", "true");
-  //   navigate.push("/");
+  // if (!user && !emotes) {
+  //   router.push('/')
   // }
   const getRandomPosition = () => ({
     top: `${Math.random() * 32}vh`,

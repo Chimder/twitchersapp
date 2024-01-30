@@ -1,5 +1,7 @@
+'use client'
+
 import { PropsWithChildren, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import { searchChannels } from '@/shared/api/axios'
 import { useDebouncedValue } from '@mantine/hooks'
 import { DotFilledIcon, ReloadIcon } from '@radix-ui/react-icons'
@@ -10,7 +12,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from './ui/input'
 
 export function DialogInput({ children }: PropsWithChildren) {
-  const navigate = useRouter()
+  const router = useRouter()
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [debouncedSearchQuery] = useDebouncedValue(searchQuery, 450)
 
@@ -63,7 +65,7 @@ export function DialogInput({ children }: PropsWithChildren) {
                 exit={{ opacity: 0, y: -20 }}
                 className="relative flex h-16 cursor-pointer list-none items-start rounded-lg pl-5 pt-3 text-secondary no-underline hover:bg-black/50 hover:bg-card hover:opacity-80"
                 key={channel.id}
-                onClick={() => navigate.push(`/streamer/${channel.id}`)}
+                onClick={() => router.push(`/streamer/${channel.id}`)}
               >
                 <div className="flex items-center justify-center">
                   <img className="w-10 rounded-full" src={channel.thumbnail_url} alt="" />

@@ -1,7 +1,10 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { getVideosByUserId } from '@/shared/api/axios'
-import { useInfiniteQuery } from '@tanstack/react-query'
+import { useParams, useRouter } from 'next/navigation'
+import { getVideosByUserId, getVideosByUserIdAct } from '@/shared/api/axios'
+import { TwitchVideo } from '@/shared/api/types'
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
@@ -9,9 +12,13 @@ import CardVideo from './card-video'
 import { Button } from './ui/button'
 import { Skeleton } from './ui/skeleton'
 
+type Props = {
+  video: TwitchVideo[]
+  params: any
+}
 export const StreamerVideos = () => {
-  const router = useRouter()
-  const id = router?.query?.id as string
+  const path = useParams()
+  const id = path?.id as string
   const [type, setType] = useState<'offline' | 'stream' | 'clips'>('offline')
 
   const fetchVideos = async ({ pageParam = null }: { pageParam?: string | null }) => {
@@ -32,17 +39,14 @@ export const StreamerVideos = () => {
     await refetch()
   }
 
+  console.log('PREFINFQURE', data)
+  // return
   const { ref, inView } = useInView()
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage()
     }
   }, [inView])
-
-  // if (!data || data?.pages?.length === 0) {
-  //   return <div>У пользователя нет видео.</div>;
-  // }
-  console.log('DATA', data)
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -105,7 +109,7 @@ export const StreamerVideos = () => {
               ))}
 
           <AnimatePresence>
-            {/* {isFetchingNextPage &&
+            {isFetchingNextPage &&
               Array.from({ length: 40 }, (_, index) => (
                 <React.Fragment key={`skeleton-${index}`}>
                   <motion.div
@@ -114,14 +118,14 @@ export const StreamerVideos = () => {
                     exit={{ opacity: 0.1, scale: 1 }}
                     transition={{ duration: 0.4 }}
                     className="relative mr-4 w-full overflow-hidden rounded-2xl"
-                    style={{ paddingBottom: "52%" }}
+                    style={{ paddingBottom: '52%' }}
                   >
                     <div className="absolute inset-0 px-3">
                       <Skeleton className="h-full w-full" />
                     </div>
                   </motion.div>
                 </React.Fragment>
-              ))} */}
+              ))}
           </AnimatePresence>
         </div>
       </div>
