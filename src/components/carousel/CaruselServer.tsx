@@ -12,11 +12,11 @@ export default async function CaruselServer() {
   const slides = await getTopGames()
   const game = await getTopStreamsByGame()
 
-  // const queryClient = new QueryClient()
-  // await queryClient.prefetchQuery({
-  //   queryKey: ['getPopStreams'],
-  //   queryFn: async () => getTopStreamsByGame(),
-  // })
+  const queryClient = new QueryClient()
+  await queryClient.prefetchQuery({
+    queryKey: ['getPopStreams'],
+    queryFn: async () => getTopStreamsByGame(),
+  })
 
   // const search = async (gameId: string, type: string) => {
   //   'use server'
@@ -26,9 +26,9 @@ export default async function CaruselServer() {
   // }
   return (
     <div>
-      {/* <HydrationBoundary state={dehydrate(queryClient)}> */}
+      <HydrationBoundary state={dehydrate(queryClient)}>
         <EmblaCarousel game={game} slides={slides}></EmblaCarousel>
-      {/* </HydrationBoundary> */}
+      </HydrationBoundary>
     </div>
   )
 }
