@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { revalidatePath } from 'next/cache'
 import { useParams, useRouter } from 'next/navigation'
 import { getVideosByUserId, getVideosByUserIdAct } from '@/shared/api/axios'
 import { TwitchVideo } from '@/shared/api/types'
@@ -28,17 +29,18 @@ export const StreamerVideos = () => {
 
   const { data, fetchNextPage, refetch, hasNextPage, isRefetching, isFetchingNextPage } =
     useInfiniteQuery({
-      queryKey: ['getVideosByUserId'],
+      queryKey: ['getVideosByUserId', id],
       queryFn: fetchVideos,
       getNextPageParam: lastPage => lastPage?.nextCursor || null,
       initialPageParam: undefined,
       refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      staleTime: 0,
+      // refetchOnMount: false,
+      // staleTime: 0,
     })
   const ToggleType = async (type: 'offline' | 'stream' | 'clips') => {
     await setType(type)
     await refetch()
+    // revalidatePath(`streamer/${id}`)
   }
 
   // return

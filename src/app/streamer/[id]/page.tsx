@@ -13,6 +13,7 @@ const Streamer = async ({ params: { id } }: { params: { id: string } }) => {
   const queryClient = new QueryClient()
   const user = await getUserById(id)
   const emotes = await getEmotes(id)
+  console.log('PARAMS', id)
   // const userVideo = await getVideosByUserIdAct(id)
 
   // const fetchVideos = async ({ pageParam = null }: { pageParam?: string | null }) => {
@@ -20,19 +21,19 @@ const Streamer = async ({ params: { id } }: { params: { id: string } }) => {
   //   return result
   // }
 
-  await queryClient.prefetchInfiniteQuery({
-    queryKey: ['getVideosByUserId'],
-    queryFn: () => getVideosByUserIdAct(id),
-    initialPageParam: 0,
-  })
+  // await queryClient.prefetchInfiniteQuery({
+  //   queryKey: ['getVideosByUserId', id],
+  //   queryFn: () => getVideosByUserIdAct(id),
+  //   initialPageParam: 0,
+  // })
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <article className="overflow-hidden">
-        <StreamerInfo user={user!} emotes={emotes} />
-        <StreamerVideos />
-      </article>
-    </HydrationBoundary>
+    // <HydrationBoundary state={dehydrate(queryClient)}>
+    <article className="overflow-hidden">
+      <StreamerInfo user={user!} emotes={emotes} />
+      <StreamerVideos />
+    </article>
+    // </HydrationBoundary>
   )
 }
 
