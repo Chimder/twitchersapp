@@ -37,21 +37,23 @@ const EmblaCarousel = ({ game, slides, search }: Props) => {
     isLoading,
     isRefetching,
   } = useQuery({
-    queryKey: ['getPopStreams'],
+    queryKey: [`getPopStreams${selectedIndex}${idGame}${type}`],
     queryFn: async () => getTopStreamsByGame(idGame, type),
     refetchOnWindowFocus: false,
   })
-  const onThumbClick = async (index: number, type: 'clips' | 'stream') => {
-    startTransition(async () => {
-      await setSelectedIndex(index)
-      await setIdGame(index.toString())
-      await setType(type)
-      await refetch()
-    })
 
-    // setGameS(await search(index.toString(), type))
-    // revalidatePath('/')
+  const onThumbClick = (index: number, type: 'clips' | 'stream') => {
+    try {
+      setSelectedIndex(index)
+      setIdGame(index.toString())
+      setType(type)
+      refetch()
+    } catch (error) {
+      console.error(error)
+    }
+    // if (!emblaMainApi || !emblaThumbsApi) return;
   }
+  console.log('GAMES', games)
 
   return (
     <>
@@ -76,7 +78,7 @@ const EmblaCarousel = ({ game, slides, search }: Props) => {
       <div className="container z-999 pt-2" ref={emblaMainRef}>
         <div className="gridCard">
           <AnimatePresence>
-            {isLoading || isRefetching || isPending
+            {isLoading && !isRefetching
               ? Array.from({ length: 50 }, (_, index) => (
                   <React.Fragment key={`skeleton-${index}`}>
                     <motion.div
