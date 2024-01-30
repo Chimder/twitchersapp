@@ -184,7 +184,6 @@ export async function getVideosByUserId(
   cursor: string | null = null,
   type: 'offline' | 'stream' | 'clips',
 ): Promise<{ videos: TwitchVideo[]; nextCursor: string | null }> {
-  console.log("SECONDDDD")
   const accessToken = await getAccessToken()
 
   try {

@@ -1,12 +1,32 @@
 'use server'
 
+import { revalidatePath } from 'next/cache'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 
 import { Button } from '@/components/ui/button'
 import CaruselServer from '@/components/carousel/CaruselServer'
+import EmblaCarousel from '@/components/carousel/EmblaCarousel'
 import { DialogInput } from '@/components/dialog-search'
 
+import { getTopStreamsByGame } from './actions/getGameById'
+import { getTopGames } from './actions/getTopGames'
+
 export default async function Home(props: any) {
+  const slides = await getTopGames()
+  const game = await getTopStreamsByGame()
+
+  // const queryClient = new QueryClient()
+  // await queryClient.prefetchQuery({
+  //   queryKey: ['getPopStreams'],
+  //   queryFn: async () => getTopStreamsByGame(),
+  // })
+
+  const search = async (gameId: string, type: string) => {
+    'use server'
+    const manga = await getTopStreamsByGame(gameId, type)
+    revalidatePath('/')
+    return manga
+  }
   return (
     <main className="h-[2000px] overflow-hidden">
       <section className="w-full">
@@ -21,7 +41,7 @@ export default async function Home(props: any) {
           </div>
 
           <DialogInput>
-            <Button className="bg-button-foreground  text-text px-40 text-xl text-white sm:px-28 md:px-32 md:text-sm lg:text-base">
+            <Button className="bg-button-foreground  px-40 text-xl text-text text-white lg:text-base md:px-32 md:text-sm sm:px-28">
               <MagnifyingGlassIcon className="h-6 w-6 pr-1" />
               Search Steamer
             </Button>

@@ -1,7 +1,7 @@
 'use client'
 
-import React, { Suspense, useState, useTransition } from 'react'
-import { revalidatePath } from 'next/cache'
+import React, { startTransition, Suspense, useEffect, useState, useTransition } from 'react'
+import { revalidatePath, revalidateTag } from 'next/cache'
 import { useRouter } from 'next/navigation'
 import { getTopStreamsByGame } from '@/shared/api/axios'
 import { TopGame, TwitchCurrent } from '@/shared/api/types'
@@ -15,28 +15,41 @@ import { Skeleton } from '../ui/skeleton'
 import { Thumb } from './EmblaCarouselThumbsButton'
 
 type Props = {
-  game: TwitchCurrent[]
+  game?: TwitchCurrent[]
   slides: TopGame[]
-  search: (idGame: string, type: string) => Promise<TwitchCurrent[]>
+  search?: (idGame: string, type: string) => Promise<TwitchCurrent[]>
 }
 
 const EmblaCarousel = ({ game, slides, search }: Props) => {
-  const [gameS, setGameS] = useState<TwitchCurrent[]>(game)
+  // const [gameS, setGameS] = useState<TwitchCurrent[]>(game)
   const [isPending, startTransition] = useTransition()
   const [selectedIndex, setSelectedIndex] = useState<number>(Number(slides[0]?.id))
   const [type, setType] = useState<'offline' | 'stream' | 'clips'>('stream')
+  const [idGame, setIdGame] = useState<string>(slides[0]?.id)
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel()
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
     containScroll: 'keepSnaps',
     dragFree: true,
   })
-
-  const onThumbClick = (index: number, type: 'clips' | 'stream') => {
+  const {
+    data: games,
+    refetch,
+    isLoading,
+    isRefetching,
+  } = useQuery({
+    queryKey: ['getPopStreams'],
+    queryFn: async () => getTopStreamsByGame(idGame, type),
+    refetchOnWindowFocus: false,
+  })
+  const onThumbClick = async (index: number, type: 'clips' | 'stream') => {
     startTransition(async () => {
-      setSelectedIndex(index)
-      setType(type)
-      setGameS(await search(index.toString(), type))
+      await setSelectedIndex(index)
+      await setIdGame(index.toString())
+      await setType(type)
+      await refetch()
     })
+
+    // setGameS(await search(index.toString(), type))
     // revalidatePath('/')
   }
 
@@ -63,7 +76,7 @@ const EmblaCarousel = ({ game, slides, search }: Props) => {
       <div className="container z-999 pt-2" ref={emblaMainRef}>
         <div className="gridCard">
           <AnimatePresence>
-            {isPending
+            {isLoading || isRefetching || isPending
               ? Array.from({ length: 50 }, (_, index) => (
                   <React.Fragment key={`skeleton-${index}`}>
                     <motion.div
@@ -80,7 +93,7 @@ const EmblaCarousel = ({ game, slides, search }: Props) => {
                     </motion.div>
                   </React.Fragment>
                 ))
-              : gameS?.map((game: any) => (
+              : games?.map((game: any) => (
                   <CardVideo video={game} type={type} key={game?.id}></CardVideo>
                 ))}
           </AnimatePresence>

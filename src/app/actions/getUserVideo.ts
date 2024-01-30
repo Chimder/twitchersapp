@@ -5,7 +5,6 @@ import axios from 'axios'
 export async function getVideosByUserIdAct(
   userId: string,
 ): Promise<{ videos: TwitchVideo[]; nextCursor: string | null }> {
-  console.log('FIRSTTTTT')
   const accessToken = await getAccessToken()
 
   try {

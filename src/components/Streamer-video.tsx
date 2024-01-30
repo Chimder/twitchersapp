@@ -39,7 +39,6 @@ export const StreamerVideos = () => {
     await refetch()
   }
 
-  console.log('PREFINFQURE', data)
   // return
   const { ref, inView } = useInView()
   useEffect(() => {

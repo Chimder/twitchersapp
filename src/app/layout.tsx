@@ -17,8 +17,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  // one,
+  // two,
 }: Readonly<{
   children: React.ReactNode
+  // one: React.ReactNode
+  // two: React.ReactNode
 }>) {
   return (
     <html lang="en">
@@ -32,6 +36,8 @@ export default function RootLayout({
           >
             <Header></Header>
             {children}
+            {/* {one}
+            {two} */}
           </ThemeProvider>
         </ClientProvider>
       </body>
