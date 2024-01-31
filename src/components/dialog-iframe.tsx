@@ -38,7 +38,7 @@ const DialogIframe = ({ url, clsn, children, name, type, videoId }: Props) => {
           ) : (
             <iframe
               className="iframeOC "
-              src={`${url}&parent=localhost&parent=twitchers-next.vercel.app`}
+              src={`${url}&parent=localhost&parent=twitchersapp.vercel.app`}
             ></iframe>
           )}
         </div>

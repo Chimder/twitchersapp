@@ -15,7 +15,7 @@ import { Skeleton } from '../ui/skeleton'
 import { Thumb } from './EmblaCarouselThumbsButton'
 
 type Props = {
-  game?: TwitchCurrent[]
+  // game?: TwitchCurrent[]
   slides: TopGame[]
   search?: (idGame: string, type: string) => Promise<TwitchCurrent[]>
 }

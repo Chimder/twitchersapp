@@ -9,11 +9,6 @@ interface Props {
 }
 
 export const StreamerInfo = ({ user, emotes }: Props) => {
-  // const router = useRouter()
-
-  // if (!user && !emotes) {
-  //   router.push('/')
-  // }
   const getRandomPosition = () => ({
     top: `${Math.random() * 32}vh`,
     left: `${Math.random() * 98}vw`,

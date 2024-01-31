@@ -13,10 +13,6 @@ import CardVideo from './card-video'
 import { Button } from './ui/button'
 import { Skeleton } from './ui/skeleton'
 
-type Props = {
-  video: TwitchVideo[]
-  params: any
-}
 export const StreamerVideos = () => {
   const path = useParams()
   const id = path?.id as string
@@ -34,13 +30,10 @@ export const StreamerVideos = () => {
       getNextPageParam: lastPage => lastPage?.nextCursor || null,
       initialPageParam: undefined,
       refetchOnWindowFocus: false,
-      // refetchOnMount: false,
-      // staleTime: 0,
     })
   const ToggleType = async (type: 'offline' | 'stream' | 'clips') => {
     await setType(type)
     await refetch()
-    // revalidatePath(`streamer/${id}`)
   }
 
   // return
