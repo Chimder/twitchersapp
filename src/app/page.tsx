@@ -1,6 +1,5 @@
 'use server'
 
-import { revalidatePath } from 'next/cache'
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 
